@@ -31,6 +31,10 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        if ($request->has('photo')) {
+            $request->user()->updateProfilePhoto($request->file('photo'));
+        }
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
@@ -59,5 +63,18 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    /**
+     * Delete the current user's profile photo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroyProfilePhoto(Request $request)
+    {
+        $request->user()->deleteProfilePhoto();
+
+        return back(303)->with('status', 'profile-photo-deleted');
     }
 }
