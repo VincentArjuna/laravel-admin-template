@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Menu;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -38,6 +39,19 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'menus' => function () {
+                if ($user = request()->user()) {
+                    $menus = Menu::whereNull('parent_id')->orderBy('position')->with(['childs'])->get();
+
+                    return $menus->filter(function ($menu) use ($user) {
+                        $permissions = $menu->permissions->pluck('name')->toArray();
+
+                        return $permissions ? $user->can($permissions) : true;
+                    });
+                }
+
+                return [];
             },
         ]);
     }

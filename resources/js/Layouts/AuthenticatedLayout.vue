@@ -1,13 +1,16 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import SideBar from '@/Components/SideBar.vue';
 
 const showingNavigationDropdown = ref(false);
+const menus = Array.isArray(usePage().props.menus)
+    ? usePage().props.menus
+    : Object.values(usePage().props.menus);
 </script>
 
 <template>

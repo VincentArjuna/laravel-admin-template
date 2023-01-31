@@ -19,7 +19,7 @@ class MenuSeeder extends Seeder
         Menu::create([
             'name' => 'dashboard',
             'route_or_url' => 'dashboard',
-            'icon' => 'tachometer-alt',
+            'icon' => 'menu',
             'active' => true,
             'position' => 1,
             'routes' => ['dashboard'],
@@ -29,7 +29,7 @@ class MenuSeeder extends Seeder
         $builtin = Menu::create([
             'name' => 'builtin',
             'route_or_url' => '#',
-            'icon' => 'cogs',
+            'icon' => 'cog',
             'active' => true,
             'position' => 2,
             'routes' => [
@@ -46,7 +46,7 @@ class MenuSeeder extends Seeder
             ],
             'deleteable' => false,
         ]);
-        
+
         $builtin->permissions()->attach([
             Permission::where('name', 'create user')->first()->id,
             Permission::where('name', 'read user')->first()->id,
@@ -110,7 +110,7 @@ class MenuSeeder extends Seeder
         $roles = $builtin->childs()->create([
             'name' => 'roles',
             'route_or_url' => 'superuser.role.index',
-            'icon' => 'users',
+            'icon' => 'user-group',
             'active' => true,
             'position' => 3,
             'routes' => [
@@ -131,7 +131,7 @@ class MenuSeeder extends Seeder
         $menu = $builtin->childs()->create([
             'name' => 'menu',
             'route_or_url' => 'superuser.menu.index',
-            'icon' => 'bars',
+            'icon' => 'bars-3-bottom-left',
             'active' => true,
             'position' => 4,
             'routes' => [
